@@ -374,6 +374,7 @@
         try {
           let data = {
             title: this.title,
+            headline: this.title,
             link: this.link,
             categories: this.selGroups,
             dated: new Date()
