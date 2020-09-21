@@ -77,33 +77,6 @@
           </div>
           <div v-else class="body-1">{{item.headline}}
           </div>
-          <!-- <div v-else>
-          <v-edit-dialog
-            :return-value.sync="item.news"
-            large
-            persistent
-            @save="save"
-            @cancel="cancel"
-            @open="open"
-            @close="close"
-          >
-          <div class="body-1">{{ item.news }}</div>
-          <template v-slot:input>
-            <div class="mt-4 title">Update News</div>
-          </template> -->
-          <!-- <template v-slot:input>
-            <v-text-field
-              v-model="item.news"
-              :rules="[max225chars]"
-              label="Edit"
-              aria-multiline
-              
-              counter
-              autofocus
-            ></v-text-field>
-          </template>
-        </v-edit-dialog> -->
-          <!-- </div> -->
       </template>
 
       <template v-slot:[`item.group`]="{item}">
@@ -171,34 +144,6 @@
           </div>
           <div v-else class="body-1">{{item.link}}</div>
       </template>
-
-      <!-- <template v-slot:item.iron="props">
-        <v-edit-dialog
-          :return-value.sync="props.item.iron"
-          large
-          persistent
-          @save="save"
-          @cancel="cancel"
-          @open="open"
-          @close="close"
-        >
-          <div>{{ props.item.iron }}</div>
-          <template v-slot:input>
-            <div class="mt-4 title">Update Iron</div>
-          </template>
-          <template v-slot:input>
-            <v-text-field
-              v-model="props.item.iron"
-              :rules="[max25chars]"
-              label="Edit"
-              single-line
-              counter
-              autofocus
-            ></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>  -->
-
       <template v-slot:[`item.link`]="{item}">
           <div class="mt-3 d-flex justify-space-between" v-if="item.id <= 0">
           <v-text-field
@@ -328,87 +273,29 @@
         loading: true,
         link: '',
         title: '',
-        snack: false,
-        snackColor: '',
-        snackText: '',
-        max225chars: v => v.length <= 225 || 'Input too long!',
         categories: [],
         rows: [],
         selGroups: null,
         allGroups: [],
-        dummy: [
-          {
-            title: 'Click Me',
-          },
-          {
-            title: 'Click Me',
-          },
-          {
-            title: 'Click Me',
-          },
-          {
-            title: 'Click Me 2',
-          },
-        ],
         status: ['In Queue', 'Published', 'Approved', 'Edit Reuired'],
-        items: [
-            {id:1, actions:["submit"]},
-            {id:2, actions:["submit"]},
-        {
-            news: 'FDA allows pooled testing for COVID-19, greenlights Quest Diagnostics', 
-            group: ['Technology'],
-            url: "healthcare@gmail.com",
-            link: "11th November 2020, 19:30",
-            status: "In Queue",
-            actions: ['edit', 'reject link', 'approve'],
-            id: 3 
-        },
-        {
-            news: 'FDA allows pooled testing for COVID-19, greenlights Quest Diagnostics', 
-            group: ['Technology', 'Health'],
-            url: "healthcare@gmail.com",
-            link: "5th November 2020, 19:30",
-            status: "Approved",
-            actions: ['edit'],
-            id: 4 
-        },
-        {
-            news: 'FDA allows pooled testing for COVID-19, greenlights Quest Diagnostics', 
-            group: ['Technology'],
-            url: "healthcare@gmail.com",
-            link: "1st November 2020, 19:30",
-            status: "Published",
-            actions: ['view'],
-            id: 5 
-        },
-        {
-            news: 'FDA allows pooled testing for COVID-19, greenlights Quest Diagnostics', 
-            group: ['Technology'],
-            url: "healthcare@gmail.com",
-            link: "1st November 2020, 19:30",
-            status: "Edits Required",
-            actions: ['cancel', 'submit'],
-            id: 6 
+        headers: [
+          { text: 'News Headline', value: 'news', class:"body-1 black--text font-weight-bold" },
+          { text: 'Group', value: 'group', class:"body-1 black--text font-weight-bold" },
+          { text: 'URL', value: 'url', class:"body-1 black--text font-weight-bold", width:"10" },
+          { text: 'Link added', value: 'link', class:"body-1 black--text font-weight-bold" },
+          { text: 'Status', value: 'status', class:"body-1 black--text font-weight-bold" },
+          { text: '', value: 'actions', class:"body-1 black--text font-weight-bold" ,sortable: false },
+        ],
+        totalHeaders: [
+          {text: 'News Headline', value: 'news'},
+          {text: 'Group', value: 'group'},
+          {text: 'URL', value: 'url'},
+          {text: 'Link added', value: 'link'},
+          {text: 'Status', value: 'status'},
+          {text: 'Schedule', value: 'schedule'},
+          {text: 'Published', value: 'published'},
+          {text: 'Assigned', value: 'assigned'}]
         }
-      ],
-      headers: [
-        { text: 'News Headline', value: 'news', class:"body-1 black--text font-weight-bold" },
-        { text: 'Group', value: 'group', class:"body-1 black--text font-weight-bold" },
-        { text: 'URL', value: 'url', class:"body-1 black--text font-weight-bold", width:"10" },
-        { text: 'Link added', value: 'link', class:"body-1 black--text font-weight-bold" },
-        { text: 'Status', value: 'status', class:"body-1 black--text font-weight-bold" },
-        { text: '', value: 'actions', class:"body-1 black--text font-weight-bold" ,sortable: false },
-      ],
-      totalHeaders: [
-        {text: 'News Headline', value: 'news'},
-        {text: 'Group', value: 'group'},
-        {text: 'URL', value: 'url'},
-        {text: 'Link added', value: 'link'},
-        {text: 'Status', value: 'status'},
-        {text: 'Schedule', value: 'schedule'},
-        {text: 'Published', value: 'published'},
-        {text: 'Assigned', value: 'assigned'}]
-      }
     },
     mounted() {
       this.getNews()
@@ -440,26 +327,7 @@
       }
     },
     methods: {
-      save () {
-        this.snack = true
-        this.snackColor = 'success'
-        this.snackText = 'Data saved'
-      },
-      cancel () {
-        this.snack = true
-        this.snackColor = 'error'
-        this.snackText = 'Canceled'
-      },
-      open () {
-        this.snack = true
-        this.snackColor = 'info'
-        this.snackText = 'Dialog opened'
-      },
-      close () {
-        console.log('Dialog closed')
-      },
       actions(val) {
-        // 'edit', 'reject link', 'approve'
         switch(val) {
           case 'view': 
             this.$store.state.newsPreview = !this.$store.state.newsPreview
@@ -504,7 +372,6 @@
       },
       async addNews() {
         try {
-          // axios.defaults.headers.common['Auth-Token'] = 'foo bar'
           let data = {
             title: this.title,
             link: this.link,
